@@ -12,6 +12,7 @@ import tweets from '../reducers/tweets';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import storage from 'redux-persist/lib/storage';
+import { AppProps } from 'next/app'; // Import AppProps pour typer le composant
 
 const reducers = combineReducers({ user, tweets });
 const persistConfig = {
@@ -27,10 +28,11 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-function App({ Component, pageProps }) {
+// Typage du composant app avec AppProps
+function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         <Head>
           <title>Hackatweet</title>
         </Head>
