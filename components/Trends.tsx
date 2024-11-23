@@ -10,7 +10,8 @@ const Trends: React.FC = () => {
     const [trendsData, setTrendsData] = useState<{ hashtag: string; count: number }[]>([]);
 
     useEffect(() => {
-        fetch(`${API_KEY}/tweets/trends/${user.token}`)
+        fetch(`${API_KEY}/tweets/trends/${user.token}`) 
+            // fetch(`http://localhost:3000/tweets/trends/${user.token}`)
             .then(response => response.json())
             .then(data => {
                 data.result && setTrendsData(data.trends);

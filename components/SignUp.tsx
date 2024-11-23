@@ -5,7 +5,7 @@ import Image from 'next/image';
 import styles from '../styles/SignUp.module.css';
 import { useRouter } from 'next/router';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-console.log("Mon Api Key est : " + API_KEY);
+// console.log("Mon Api Key est : " + API_KEY);
 const SignUp: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
@@ -25,12 +25,13 @@ const SignUp: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!firstName || !username || !email || !password) {
-            alert('Veuillez remplir tous les champs.');
+        if (!firstName || !username || !email || !password || username.length < 3 || username.length > 10 || password.length < 6) {
+            alert('Veuillez remplir tous les champs avec des valeurs valides.');
             return;
         }
 
-        fetch(`${API_KEY}/users/signup`, {
+        fetch(`${API_KEY}/users/signup`, { 
+            // fetch('http://localhost:3000/users/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ firstName, username, email, password }),
@@ -39,6 +40,7 @@ const SignUp: React.FC = () => {
             .then(data => {
                 if (data.result) {
                     dispatch(login({ token: data.token, username, firstName, email }));
+                    router.push('/');
                 } else {
                     setError(data.error || 'Une erreur est survenue');
                 }
@@ -50,10 +52,10 @@ const SignUp: React.FC = () => {
             <Image src="/logo.png" alt="Logo" width={100} height={100} />
             <h3 className={styles.title}>Create your Hackatweet account</h3>
             <form onSubmit={handleSubmit}>
-                <input type="text" className={styles.input} onChange={(e) => setFirstName(e.target.value)} value={firstName} placeholder="Firstname" />
-                <input type="text" className={styles.input} onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Username" />
-                <input type="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Email" />
-                <input type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Password" />
+                <input id="firstName" type="text" className={styles.input} onChange={(e) => setFirstName(e.target.value)} autoComplete="given-name" value={firstName} placeholder="Firstname" />
+                <input id='username' type="text" className={styles.input} onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Username" />
+                <input id='email' type="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} value={email} autoComplete='email' placeholder="Email" />
+                <input id='password'type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Password" />
                 <button type="submit" className={styles.button}>Sign up</button>
             </form>
             {error && <p className={styles.error}>{error}</p>} {/* Affichez l'erreur si elle existe */}

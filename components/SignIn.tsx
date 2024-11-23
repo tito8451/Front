@@ -28,7 +28,8 @@ const SignIn: React.FC = () => {
             return;
         }
 
-        fetch(`${API_KEY}/users/signin`, {
+        fetch(`${API_KEY}/users/signin`, { 
+            // fetch('http://localhost:3000/users/signin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password }),
@@ -37,6 +38,7 @@ const SignIn: React.FC = () => {
             .then(data => {
                 if (data.result) {
                     dispatch(login({ token: data.token, firstName: data.firstName, username: data.username, email: data.email }));
+                    router.push('/');
                 } else {
                     setError(data.error || 'Une erreur est survenue');
                 }
@@ -48,9 +50,9 @@ const SignIn: React.FC = () => {
             <Image src="/logo.png" alt="Logo" width={50} height={50} />
             <h3 className={styles.title}>Connect to Hackatweet</h3>
             <form onSubmit={handleSubmit}>
-                <input type="text" className={styles.input} onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Username" />
-                <input type="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Email" />
-                <input type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Password" />
+                <input id='username' type="text" className={styles.input} onChange={(e) => setUsername(e.target.value)} autoComplete="username" value={username} placeholder="Username" />
+                <input id='email' type="email" className={styles.input} onChange={(e) => setEmail(e.target.value)} value={email} autoComplete='email' placeholder="Email" />
+                <input id='password' type="password" className={styles.input} onChange={(e) => setPassword(e.target.value)} value={password} autoComplete='current-password' placeholder="Password" />
                 <button type="submit" className={styles.button}>Sign in</button>
             </form>
             {error && <p className={styles.error}>{error}</p>} {/* Affichez l'erreur si elle existe */}

@@ -16,7 +16,11 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action: PayloadAction<UserState>) => {
-            state.value = action.payload; // Assuming you send the entire user object
+            state.value = action.payload; 
+            state.value.token = action.payload.token;
+            state.value.username = action.payload.username;
+            state.value.firstName = action.payload.firstName;
+            state.value.email = action.payload.email;
         },
         logout: (state) => {
             state.value = { token: null, username: null, firstName: null, email: null };

@@ -20,7 +20,8 @@ const Tweet: React.FC<TweetProps> = (props) => {
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
 
     const handleLike = () => {
-        fetch(`${API_KEY}/tweets/like`,{
+        fetch(`${API_KEY}/tweets/like`, { 
+            // fetch('http://localhost:3000/tweets/like',{
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, tweetId: props._id }),
@@ -34,7 +35,9 @@ const Tweet: React.FC<TweetProps> = (props) => {
     };
 
     const handleDelete = () => {
-        fetch('http://localhost:3000/tweets', {
+        if (window.confirm('Êtes-vous sûr de vouloir supprimer ce tweet ?'))
+            fetch(`${API_KEY}/tweets`,{
+            // fetch('http://localhost:3000/tweets', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, tweetId: props._id }),
@@ -62,17 +65,13 @@ const Tweet: React.FC<TweetProps> = (props) => {
                 <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />
                 <p className={styles.content}>
                     <span className={styles.name}>{props.author.firstName}</span>
-                    {' '}
                     <span className={styles.greyText}>@{props.author.username} · <Moment className={styles.greyText} fromNow>{props.createdAt}</Moment></span>
                 </p>
             </div>
-
             <p>{formattedContent}</p>
-
-            <FontAwesomeIcon onClick={handleLike} icon={faHeart} className={styles.like} style={likeStyle} />
+                <FontAwesomeIcon onClick={handleLike} icon={faHeart} className={styles.like} style={likeStyle} />
             <span style={likeStyle}>{props.likes.length}</span>
-
-            {props.author.username === user.username && (
+              {props.author.username === user.username && (
                 <FontAwesomeIcon onClick={handleDelete} icon={faTrashCan} className={styles.delete} />
             )}
         </div>

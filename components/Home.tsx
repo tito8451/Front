@@ -32,8 +32,8 @@ const Home: React.FC = () => {
         if (tweetsData.length > 0) {
             return; // Ne pas faire de repli si des tweets existent déjà
         }
-
         fetch(`${API_KEY}/tweets/all/${user.token}`)
+        //  fetch(`http://localhost:3000/tweets/all/${user.token}`)
             .then(response => response.json())
             .then(data => {
                 data.result && dispatch(loadTweets(data.tweets));
@@ -53,6 +53,7 @@ const Home: React.FC = () => {
     const handleSubmit = () => {
         if (!newTweet) return; // Ne rien faire si le tweet est vide
         fetch('http://localhost:3000/tweets', {
+            //  || `${API_KEY}/tweets}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, content: newTweet }),

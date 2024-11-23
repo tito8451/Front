@@ -95,7 +95,7 @@
 // }
 
 // export default Hashtag;
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
@@ -106,7 +106,7 @@ import Link from 'next/link';
 import Tweet from './Tweet';
 import Trends from './Trends';
 import Image from 'next/image';
-
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const Hashtag: React.FC = () => {
     const dispatch = useDispatch();
     
@@ -131,7 +131,8 @@ const Hashtag: React.FC = () => {
         }
 
         setQuery(`#${hashtag}`);
-        fetch(`${API_KEY}/tweets/hashtag/${user.token}/${hashtag}`)
+        fetch(`${API_KEY}/tweets/hashtag/${user.token}/${hashtag}`)  
+            // fetch(`http://localhost:3001/tweets/hashtag/${user.token}/${hashtag}`)
             .then(response => response.json())
             .then(data => {
                 if (data.result) {

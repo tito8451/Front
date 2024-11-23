@@ -15,11 +15,11 @@ const Login: React.FC = () => {
 
     const router = useRouter();
 
-    useEffect(() => {
-        if (user.token) {
-          router.push('/');
-        }
-    }, [user.token, router]);
+    // useEffect(() => {
+    //     if (user.token) {
+    //       router.push('/');
+    //     }
+    // }, [user.token, router]);
 
     const showSignUpModal = () => setSignUpModalVisible(true);
     const showSignInModal = () => setSignInModalVisible(true);
