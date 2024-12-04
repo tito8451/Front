@@ -9,7 +9,7 @@ import LastTweets from './LastTweets';
 import Trends from './Trends';
 import styles from '../styles/Home.module.css';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-console.log("Mon Api Key est : " + API_KEY);
+// console.log("Mon Api Key est : " + API_KEY);
 const Home: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
@@ -33,7 +33,6 @@ const Home: React.FC = () => {
             return; // Ne pas faire de repli si des tweets existent déjà
         }
         fetch(`${API_KEY}/tweets/all/${user.token}`)
-        //  fetch(`http://localhost:3000/tweets/all/${user.token}`)
             .then(response => response.json())
             .then(data => {
                 data.result && dispatch(loadTweets(data.tweets));
@@ -52,20 +51,36 @@ const Home: React.FC = () => {
 
     const handleSubmit = () => {
         if (!newTweet) return; // Ne rien faire si le tweet est vide
-        fetch('http://localhost:3000/tweets', {
-            //  || `${API_KEY}/tweets}`, {
+    
+        // Vérification pour s'assurer que le tweet commence par #
+        if (!newTweet.startsWith('#')) {
+            alert('Le tweet doit commencer par un #.');
+            return;
+        }
+    
+        fetch(`${API_KEY}/tweets`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, content: newTweet }),
-        }).then(response => response.json())
-          .then(data => {
-              if (data.result) {
-                  const createdTweet = { ...data.tweet, author: user };
-                  dispatch(addTweet(createdTweet));
-                  setNewTweet(''); // Réinitialise le champ après l'envoi du tweet
-              }
-          }).catch(error => console.error(error));
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur de réseau !'); // Gestion des erreurs réseau
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.result) {
+                const createdTweet = { ...data.tweet, author: user };
+                dispatch(addTweet(createdTweet));
+                setNewTweet(''); // Réinitialise le champ après l'envoi du tweet
+            } else {
+                console.error(data.error || 'Une erreur est survenue lors de la création du tweet.');
+            }
+        })
+        .catch(error => console.error('Erreur de Fetch:', error));
     };
+    
 
     return (
         <div className={styles.container}>

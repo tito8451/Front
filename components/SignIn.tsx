@@ -5,7 +5,7 @@ import Image from 'next/image';
 import styles from '../styles/SignIn.module.css';
 import { useRouter } from 'next/router';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-console.log("Mon Api Key est : " + API_KEY);
+// console.log("Mon Api Key est : " + API_KEY);
 const SignIn: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
@@ -28,8 +28,7 @@ const SignIn: React.FC = () => {
             return;
         }
 
-        fetch(`${API_KEY}/users/signin`, { 
-            // fetch('http://localhost:3000/users/signin', {
+        fetch(`${API_KEY}/users/signin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, email, password }),

@@ -84,6 +84,7 @@ margin-right: 7%;
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .logout:hover {

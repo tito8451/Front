@@ -3,17 +3,16 @@ import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import styles from '../styles/Trends.module.css';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
-console.log("Mon Api Key est : " + API_KEY);
 const Trends: React.FC = () => {
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
     const tweetsData = useSelector((state: { tweets: { value: any[] } }) => state.tweets.value);
     const [trendsData, setTrendsData] = useState<{ hashtag: string; count: number }[]>([]);
 
     useEffect(() => {
-        fetch(`${API_KEY}/tweets/trends/${user.token}`) 
-            // fetch(`http://localhost:3000/tweets/trends/${user.token}`)
+        fetch(`${API_KEY}/tweets/trends/${user.token}`)
             .then(response => response.json())
             .then(data => {
+                console.log("c'est le trend",data);
                 data.result && setTrendsData(data.trends);
             }).catch(error => console.error(error));
     }, [user.token, tweetsData]);

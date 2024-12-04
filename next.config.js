@@ -13,10 +13,6 @@ const nextConfig = {
     }
     return config;
   },
-  i18n: {
-    locales: ['en-US', 'fr'], // Exemple d'internationalisation
-    defaultLocale: 'en-US',
-  },
 };
 
 module.exports = nextConfig;
