@@ -12,7 +12,7 @@ const Trends: React.FC = () => {
         fetch(`${API_KEY}/tweets/trends/${user.token}`)
             .then(response => response.json())
             .then(data => {
-                console.log("c'est le trend",data);
+                // console.log("c'est le trend",data);
                 data.result && setTrendsData(data.trends);
             }).catch(error => console.error(error));
     }, [user.token, tweetsData]);
