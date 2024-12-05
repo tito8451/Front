@@ -13,7 +13,7 @@ const SignUp: React.FC = () => {
     const router = useRouter();
    
     // Définir les états pour les champs de formulaire
-    const [firstName, setFirstName] = useState<string>('');
+    const [firstname, setFirstname] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
         e.preventDefault();
 
         // Vérifie les valeurs des champs
-        if (!firstName || !username || !email || !password || username.length < 3 || username.length > 10 || password.length < 6) {
+        if (!firstname || !username || !email || !password || username.length < 3 || username.length > 10 || password.length < 6) {
             alert('Veuillez remplir tous les champs avec des valeurs valides.');
             return;
         }
@@ -33,14 +33,14 @@ const SignUp: React.FC = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ firstName, username, email, password }),
+                body: JSON.stringify({ firstname, username, email, password }),
             });
             if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json(); // Convertit la réponse en JSON
 
             if (data.result) {
-                dispatch(login({ token: data.token, username, firstName, email }));
+                dispatch(login({ token: data.token, username, firstname, email }));
                 router.push('/home'); // Redirige après la connexion
             } else {
                 setError(data.error || 'Une erreur est survenue'); // Affiche l'erreur
@@ -57,12 +57,12 @@ const SignUp: React.FC = () => {
             <h3 className={styles.title}>Create your Hackatweet account</h3>
             <form onSubmit={handleSubmit}>
                 <input
-                    id="firstName"
+                    id="firstname"
                     type="text"
                     className={styles.input}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={(e) => setFirstname(e.target.value)}
                     autoComplete="given-name"
-                    value={firstName}
+                    value={firstname}
                     placeholder="Firstname"
                     required
                 />

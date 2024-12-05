@@ -3,12 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface UserState {
     token: string | null;
     username: string | null;
-    firstName: string | null;
+    firstname: string | null;
     email: string | null;
 }
 
 const initialState: { value: UserState } = {
-    value: { token: null, username: null, firstName: null, email: null },
+    value: { token: null, username: null, firstname: null, email: null },
 };
 
 export const userSlice = createSlice({
@@ -19,11 +19,11 @@ export const userSlice = createSlice({
             state.value = action.payload; 
             state.value.token = action.payload.token;
             state.value.username = action.payload.username;
-            state.value.firstName = action.payload.firstName;
+            state.value.firstname = action.payload.firstname;
             state.value.email = action.payload.email;
         },
         logout: (state) => {
-            state.value = { token: null, username: null, firstName: null, email: null };
+            state.value = { token: null, username: null, firstname: null, email: null };
         },
     },
 });

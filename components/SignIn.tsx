@@ -37,7 +37,7 @@ const SignIn: React.FC = () => {
             const data = await response.json();
     
             if (data.result) {
-                dispatch(login({ token: data.token, username, firstName: data.firstName, email: data.email }));
+                dispatch(login({ token: data.token, username, firstname: data.firstname, email: data.email }));
                 router.push('/home');
             } else {
                 setError(data.error || 'Une erreur est survenue');
@@ -55,17 +55,17 @@ const SignIn: React.FC = () => {
             <form onSubmit={handleSubmit}>
                 <input id='username' type="text" className={styles.input} 
                        onChange={(e) => setUsername(e.target.value)} 
-                       autoComplete="username" value={username} 
+                       autoComplete="current-username" value={username} 
                        placeholder="Username" />
                 <input id='email' type="email" className={styles.input} 
                        onChange={(e) => setEmail(e.target.value)} 
-                       value={email} autoComplete='email' 
+                       value={email} autoComplete='current-email' 
                        placeholder="Email" />
                 <input id='password' type="password" className={styles.input} 
                        onChange={(e) => setPassword(e.target.value)} 
                        value={password} autoComplete='current-password' 
                        placeholder="Password" />
-                <button type="submit" className={styles.button}>Sign in</button>
+                <button id='submit' type="submit" className={styles.button}>Sign in</button>
             </form>
             {error && <p className={styles.error}>{error}</p>}
         </div>

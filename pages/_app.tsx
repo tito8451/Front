@@ -34,15 +34,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   
 
   useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
         const user = store.getState().user.value;
         if (!user.token) {
             router.push('/'); // Redirige vers la page d'accueil si l'utilisateur n'est pas connecté
         }
-    });
+    }, [router]);
 
-    return () => unsubscribe(); // Nettoyage de l'abonnement
-}, [router]);
+   
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

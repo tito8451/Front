@@ -12,7 +12,7 @@ interface TweetProps {
     content: string;
     createdAt: string;
     likes: { username: string }[];
-    author: { firstName: string; username: string };
+    author: { firstname: string; username: string };
 }
 
 const Tweet: React.FC<TweetProps> = (props) => {
@@ -62,7 +62,7 @@ const Tweet: React.FC<TweetProps> = (props) => {
             <div className={styles.userInfo}>
                 <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />
                 <p className={styles.content}>
-                    <span className={styles.name}>{props.author.firstName}</span>
+                    <span className={styles.name}>{props.author.firstname}</span>
                     <span className={styles.greyText}>@{props.author.username} · <Moment className={styles.greyText} fromNow>{props.createdAt}</Moment></span>
                 </p>
             </div>

@@ -14,7 +14,7 @@ const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 interface TweetData {
     _id: string; // Identifiant du tweet
-    author: { firstName: string; username: string }; // Objet de l'auteur
+    author: { firstname: string; username: string }; // Objet de l'auteur
     content: string; // Contenu du tweet
     likes: { username: string }[]; // Tableau d'objets avec username
     createdAt: string; // Date de création
@@ -25,7 +25,7 @@ const Hashtag: React.FC = () => {
     const dispatch = useDispatch();
     
     // Typage de state.user et state.tweets dans useSelector
-    const user = useSelector((state: { user: { value: { token: string | null; username: string | null; firstName: string | null } } }) => state.user.value);
+    const user = useSelector((state: { user: { value: { token: string | null; username: string | null; firstname: string | null } } }) => state.user.value);
     const tweetsData = useSelector((state: { tweets: { value: any[] } }) => state.tweets.value);
 
     const router = useRouter();
@@ -67,7 +67,7 @@ const Hashtag: React.FC = () => {
                 <div className={styles.userSection}>
                     <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />
                     <div className={styles.userInfo}>
-                        <p className={styles.name}>{user.firstName}</p>
+                        <p className={styles.name}>{user.firstname}</p>
                         <p className={styles.username}>@{user.username}</p>
                     </div>
                     <button onClick={() => { router.push('/'); dispatch(logout()); }} className={styles.logout}>Logout</button>

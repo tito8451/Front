@@ -4,7 +4,7 @@ import styles from '../styles/LastTweets.module.css';
 
 interface TweetData {
     _id: string; // Identifiant du tweet
-    author: { firstName: string; username: string }; // Objet de l'auteur
+    author: { firstname: string; username: string }; // Objet de l'auteur
     content: string; // Contenu du tweet
     likes: { username: string }[]; // Tableau d'objets avec username
     createdAt: string; // Date de création

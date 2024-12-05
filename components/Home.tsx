@@ -14,26 +14,8 @@ const Home: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
     const router = useRouter();
-
+    console.log(user);
     const tweetsData = useSelector((state: { tweets: { value: any[] } }) => state.tweets.value);
-
-    // const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
-    // useEffect(() => {
-    //     if (!user.token) {
-    //         if(debounceTimeout.current){
-    //             clearTimeout(debounceTimeout.current);
-    //         }
-    //         debounceTimeout.current = setTimeout(() => {
-    //             router.push('/');
-    //         }, 300)
-    //        }
-    //        return () => {
-    //         if (debounceTimeout.current) {
-    //             clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-    //         }
-    //     };
-
-    // }, [user.token, router]);
 
     const [newTweet, setNewTweet] = useState<string>('');
 
@@ -98,20 +80,20 @@ const Home: React.FC = () => {
         <div className={styles.container}>
             <div className={styles.leftSection}>
                 <Link href="/home">
-                    <Image src="/logo.png" alt="Logo" width={100} height={130} className={styles.logo} />
+                    <Image src="/logo.png" alt="Logo" width={100} height={150} className={styles.logo} />
                 </Link>
                 <div className={styles.userSection}>
                     <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />
                     <div className={styles.userInfo}>
-                        <p className={styles.name}>{user.firstName}</p>
-                        <p className={styles.username}>@{user.username}</p>
+                        <p id='name' className={styles.name}>{user.firstname}</p>
+                        <p id='username' className={styles.username}>@{user.username}</p>
                     </div>
                     <button onClick={() => { router.push('/'); dispatch(logout()); }} className={styles.logout}>Logout</button>
                 </div>
             </div>
 
             <div className={styles.middleSection}>
-                <h2 className={styles.title}>Home</h2>
+                <h2 id='home' className={styles.title}>Home</h2>
                 <div className={styles.createSection}>
                     <textarea
                         id="tweet"
