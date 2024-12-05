@@ -50,6 +50,7 @@ const SignUp: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ firstName, username, email, password }),
             });
+            if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json(); // Convertit la réponse en JSON
 

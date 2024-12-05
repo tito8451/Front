@@ -49,6 +49,7 @@ const SignIn: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password, email }),
             });
+            if (!response.ok) throw new Error('Network response was not ok');
 
             const data = await response.json();
 

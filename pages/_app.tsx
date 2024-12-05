@@ -2,7 +2,7 @@ import 'antd/dist/antd.css';
 import '../styles/globals.css';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -33,24 +33,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   
 
-   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-     useEffect(() => {
-      const user = store.getState().user.value;
-         if (!user.token) {
-             if (debounceTimeout.current) {
-               clearTimeout(debounceTimeout.current);
-            }
-            debounceTimeout.current = setTimeout(() => {
-                router.push('/'); // Redirige vers la page d'accueil si l'utilisateur est connecté
-            }, 300); // Délai de 300 ms
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+        const user = store.getState().user.value;
+        if (!user.token) {
+            router.push('/'); // Redirige vers la page d'accueil si l'utilisateur n'est pas connecté
         }
-        
-        return () => {
-            if (debounceTimeout.current) {
-                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-            }
-        };
-    }, [router]);
+    });
+
+    return () => unsubscribe(); // Nettoyage de l'abonnement
+}, [router]);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
