@@ -31,23 +31,6 @@ const Hashtag: React.FC = () => {
     const router = useRouter();
     const { hashtag } = router.query;
     
-    // const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
-    // useEffect(() => {
-    //     if (!user.token) {
-    //         if(debounceTimeout.current){
-    //             clearTimeout(debounceTimeout.current);
-    //         }
-    //         debounceTimeout.current = setTimeout(() => {
-    //             router.push('/');
-    //         }, 300)
-    //        }
-    //        return () => {
-    //         if (debounceTimeout.current) {
-    //             clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-    //         }
-    //     };
-
-    // }, [user.token, router]);
 
     const [query, setQuery] = useState<string>('#');
 

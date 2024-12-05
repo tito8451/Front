@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/user';
 import Image from 'next/image';
@@ -11,23 +11,7 @@ const SignUp: React.FC = () => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
     const router = useRouter();
-    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-    useEffect(() => {
-        if (user.token) {
-            if (debounceTimeout.current) {
-                clearTimeout(debounceTimeout.current);
-            }
-            debounceTimeout.current = setTimeout(() => {
-                router.push('/'); // Redirige vers la page d'accueil si l'utilisateur est connecté
-            }, 300); // Délai de 300 ms
-        }
-        
-        return () => {
-            if (debounceTimeout.current) {
-                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-            }
-        };
-    }, [user.token, router]);
+   
     // Définir les états pour les champs de formulaire
     const [firstName, setFirstName] = useState<string>('');
     const [username, setUsername] = useState<string>('');
@@ -48,6 +32,7 @@ const SignUp: React.FC = () => {
             const response = await fetch(`${API_KEY}/users/signup`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ firstName, username, email, password }),
             });
             if (!response.ok) throw new Error('Network response was not ok');
