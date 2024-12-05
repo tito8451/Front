@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../reducers/user';
 import Image from 'next/image';
@@ -16,24 +16,24 @@ const SignIn: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     
-    // const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
 
-    // useEffect(() => {
-    //     if (user.token) {
-    //         if (debounceTimeout.current) {
-    //             clearTimeout(debounceTimeout.current);
-    //         }
-    //         debounceTimeout.current = setTimeout(() => {
-    //             router.push('/'); // Redirige vers la page d'accueil si l'utilisateur est connecté
-    //         }, 300); // Délai de 300 ms
-    //     }
+    useEffect(() => {
+        if (user.token) {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current);
+            }
+            debounceTimeout.current = setTimeout(() => {
+                router.push('/'); // Redirige vers la page d'accueil si l'utilisateur est connecté
+            }, 300); // Délai de 300 ms
+        }
         
-    //     return () => {
-    //         if (debounceTimeout.current) {
-    //             clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-    //         }
-    //     };
-    // }, [user.token, router]);
+        return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+            }
+        };
+    }, [user.token, router]);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
