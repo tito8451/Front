@@ -2,6 +2,9 @@
   font-family: "Mont";
   src: url("/fonts/Mont-Heavy.otf");
 }
+* {
+  box-sizing: border-box;
+}
 
 .container {
   height: 100vh;
