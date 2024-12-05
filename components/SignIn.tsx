@@ -21,29 +21,37 @@ const SignIn: React.FC = () => {
         }
     }, [user.token, router]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // Vérifiez les valeurs des champs
         if (!username || !password || !email) {
-            setError('Veuillez remplir tous les champs.');
+            alert('Veuillez remplir tous les champs.');
             return;
         }
 
-        fetch(`${API_KEY}/users/signin`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, email, password }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result) {
-                    dispatch(login({ token: data.token, firstName: data.firstName, username: data.username, email: data.email }));
-                    router.push('/');
-                } else {
-                    setError(data.error || 'Une erreur est survenue');
-                }
-            }).catch(error => console.error(error));
+        try {
+            const response = await fetch(`${API_KEY}/users/signin`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password, email }),
+            });
+
+            const data = await response.json(); // Convertit la réponse en JSON
+
+            if (data.result) {
+                dispatch(login({ token: data.token, username, firstName: data.firstName, email: data.email }));
+                router.push('/');
+            } else {
+                setError(data.error || 'Une erreur est survenue');
+            }
+        } catch (error) {
+            console.error('Erreur de fetch:', error); // Gérer l'erreur ici
+            setError('Une erreur est survenue lors de la soumission.'); // Optionnel : faire un message d'erreur pour l'utilisateur
+        }
     };
 
+       
     return (
         <div className={styles.container}>
             <Image src="/logo.png" alt="Logo" width={50} height={50} />

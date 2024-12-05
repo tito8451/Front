@@ -23,27 +23,34 @@ const SignUp: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        
+        // Vérifier les valeurs des champs
         if (!firstName || !username || !email || !password || username.length < 3 || username.length > 10 || password.length < 6) {
             alert('Veuillez remplir tous les champs avec des valeurs valides.');
             return;
         }
 
-        fetch(`${API_KEY}/users/signup`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstName, username, email, password }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.result) {
-                    dispatch(login({ token: data.token, username, firstName, email }));
-                    router.push('/');
-                } else {
-                    setError(data.error || 'Une erreur est survenue');
-                }
-            }).catch(error => console.error(error));
+        try {
+            const response = await fetch(`${API_KEY}/users/signup`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ firstName, username, email, password }),
+            });
+
+            const data = await response.json(); // Convertir la réponse en JSON
+
+            if (data.result) {
+                dispatch(login({ token: data.token, username, firstName, email }));
+                router.push('/');
+            } else {
+                setError(data.error || 'Une erreur est survenue');
+            }
+        } catch (error) {
+            console.error('Erreur de fetch:', error); // Gérer l'erreur ici
+            setError('Une erreur est survenue lors de la soumission.'); // Optionnel : faire un message d'erreur pour l'utilisateur
+        }
     };
 
     return (

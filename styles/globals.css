@@ -11,17 +11,16 @@ body {
 
 h2 {
   font-size: 68px;
+  color: white;
 }
 
 h3 {
   font-size: 30px;
+  color: white;
 }
 
 p {
   font-size: 14px;
-}
-
-h2, h3, p, span, button {
   color: white;
 }
 
@@ -29,17 +28,17 @@ input, textarea {
   color: lightgray;
 }
 
+textarea::placeholder {
+  color: rgb(114, 131, 148);
+}
+
 .ant-modal-header {
   background-color: #15202b;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
   border: none;
 }
 
 .ant-modal-content {
   background-color: #15202b;
   border-radius: 10px;
-}
-
-textarea::placeholder {
-  color: rgb(114, 131, 148);
 }

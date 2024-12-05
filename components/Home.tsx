@@ -39,8 +39,8 @@ const Home: React.FC = () => {
             });
     }, [dispatch, user.token]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const value = e.target.value;
+    const handleInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = await e.target.value;
         if (value.length === 0 || value.startsWith('#')) { 
             
             setNewTweet(value);
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         if (!newTweet) return; // Ne rien faire si le tweet est vide
     
         // Vérification pour s'assurer que le tweet commence par #
@@ -58,7 +58,7 @@ const Home: React.FC = () => {
             return;
         }
     
-        fetch(`${API_KEY}/tweets`, {
+        await fetch(`${API_KEY}/tweets`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, content: newTweet }),
