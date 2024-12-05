@@ -13,7 +13,7 @@ const SignUp: React.FC = () => {
 
     useEffect(() => {
         if (user.token) {
-            router.push('/');
+            router.push('/home');
         }
     }, [user.token, router]);
 
@@ -43,7 +43,7 @@ const SignUp: React.FC = () => {
 
             if (data.result) {
                 dispatch(login({ token: data.token, username, firstName, email }));
-                router.push('/');
+                router.push('/home');
             } else {
                 setError(data.error || 'Une erreur est survenue');
             }

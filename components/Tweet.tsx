@@ -19,8 +19,8 @@ const Tweet: React.FC<TweetProps> = (props) => {
     const dispatch = useDispatch();
     const user = useSelector((state: { user: { value: any } }) => state.user.value);
 
-    const handleLike = () => {
-        fetch(`${API_KEY}/tweets/like`, {
+    const handleLike = async () => {
+       await fetch(`${API_KEY}/tweets/like`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, tweetId: props._id }),
@@ -33,14 +33,14 @@ const Tweet: React.FC<TweetProps> = (props) => {
             }).catch(error => console.error(error));
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer ce tweet ?'))
-            fetch(`${API_KEY}/tweets`,{
+           await fetch(`${API_KEY}/tweets`,{
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: user.token, tweetId: props._id }),
         })
-            .then(response => response.json())
+            .then(response =>response.json())
             .then(data => {
                 if (data.result) {
                     dispatch(deleteTweet(props._id));

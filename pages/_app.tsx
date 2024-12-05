@@ -92,7 +92,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     // Redirection vers la page de login si aucun token n'est présent
     const user = store.getState().user.value; // Accéder à l'état pour vérifier le token
     if (!user.token) {
-      router.push('/login');
+      router.push('/');
     }
   }, [router]);
 

@@ -19,7 +19,7 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         if (!user.token) {
-            router.push('/login');
+            router.push('/');
         }
     }, [user.token, router]);
 
@@ -94,7 +94,7 @@ const Home: React.FC = () => {
                         <p className={styles.name}>{user.firstName}</p>
                         <p className={styles.username}>@{user.username}</p>
                     </div>
-                    <button onClick={() => { router.push('/login'); dispatch(logout()); }} className={styles.logout}>Logout</button>
+                    <button onClick={() => { router.push('/'); dispatch(logout()); }} className={styles.logout}>Logout</button>
                 </div>
             </div>
 

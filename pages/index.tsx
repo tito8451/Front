@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Home from '../components/Home';
+import Login from '../components/Login';
 
 const Index: React.FC = () => {
     return (
@@ -7,7 +7,7 @@ const Index: React.FC = () => {
             <Head>
                 <title>Home / Hackatweet</title>
             </Head>
-            <Home />
+            <Login />
         </>
     );
 }

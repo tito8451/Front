@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Login from '../components/Login';
+import Home from '../components/Home';
 
 const LoginPage: React.FC = () => {
     return (
@@ -7,7 +7,7 @@ const LoginPage: React.FC = () => {
             <Head>
                 <title>Login / Hackatweet</title>
             </Head>
-            <Login />
+            <Home />
         </>
     );
 }
