@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
@@ -17,10 +17,22 @@ const Home: React.FC = () => {
 
     const tweetsData = useSelector((state: { tweets: { value: any[] } }) => state.tweets.value);
 
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
     useEffect(() => {
         if (!user.token) {
-            router.push('/');
-        }
+            if(debounceTimeout.current){
+                clearTimeout(debounceTimeout.current);
+            }
+            debounceTimeout.current = setTimeout(() => {
+                router.push('/');
+            }, 300)
+           }
+           return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+            }
+        };
+
     }, [user.token, router]);
 
     const [newTweet, setNewTweet] = useState<string>('');
@@ -85,8 +97,8 @@ const Home: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.leftSection}>
-                <Link href="/">
-                    <Image src="/logo.png" alt="Logo" width={50} height={100} className={styles.logo} />
+                <Link href="/home">
+                    <Image src="/logo.png" alt="Logo" width={100} height={130} className={styles.logo} />
                 </Link>
                 <div className={styles.userSection}>
                     <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />
@@ -102,6 +114,7 @@ const Home: React.FC = () => {
                 <h2 className={styles.title}>Home</h2>
                 <div className={styles.createSection}>
                     <textarea
+                        id="tweet"
                         placeholder="What's up?"
                         className={styles.input}
                         onChange={handleInputChange}
@@ -116,7 +129,7 @@ const Home: React.FC = () => {
             </div>
 
             <div className={styles.rightSection}>
-                <h2 className={styles.title}>Trends</h2>
+                <h2 className={styles.title} id="trends">Trends</h2>
                 <Trends />
             </div>
         </div>

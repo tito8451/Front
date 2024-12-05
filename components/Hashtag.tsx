@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
 import { loadTweets } from '../reducers/tweets';
@@ -9,7 +9,9 @@ import Link from 'next/link';
 import Tweet from './Tweet';
 import Trends from './Trends';
 import Image from 'next/image';
+import { clear } from 'console';
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
+
 interface TweetData {
     _id: string; // Identifiant du tweet
     author: { firstName: string; username: string }; // Objet de l'auteur
@@ -28,11 +30,23 @@ const Hashtag: React.FC = () => {
 
     const router = useRouter();
     const { hashtag } = router.query;
-
+    
+    const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
     useEffect(() => {
         if (!user.token) {
-            router.push('/');
-        }
+            if(debounceTimeout.current){
+                clearTimeout(debounceTimeout.current);
+            }
+            debounceTimeout.current = setTimeout(() => {
+                router.push('/');
+            }, 300)
+           }
+           return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+            }
+        };
+
     }, [user.token, router]);
 
     const [query, setQuery] = useState<string>('#');
@@ -64,8 +78,8 @@ const Hashtag: React.FC = () => {
     return (
         <div className={styles.container}>
             <div className={styles.leftSection}>
-                <Link href="/">
-                    <Image src="/logo.png" alt="Logo" width={50} height={100} className={styles.logo} />
+                <Link href="/home">
+                    <Image src="/logo.png" alt="Logo" width={100} height={150} className={styles.logo} />
                 </Link>
                 <div className={styles.userSection}>
                     <Image src="/avatar.png" alt="Avatar" width={46} height={46} className={styles.avatar} />

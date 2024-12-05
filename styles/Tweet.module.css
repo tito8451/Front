@@ -5,7 +5,7 @@
 
 .container {
   border: rgba(114, 131, 148, 0.455) solid;
-  border-width: 1px 0px 0px 0px;
+  border-width: 1px 0 0 0;
   padding: 20px;
 }
 
