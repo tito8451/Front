@@ -57,7 +57,7 @@ import 'antd/dist/antd.css';
 import '../styles/globals.css';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
@@ -87,15 +87,25 @@ const persistor = persistStore(store);
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   
-  // Use an effect to check user token and redirect accordingly
-  useEffect(() => {
-    // Redirection vers la page de login si aucun token n'est présent
-    const user = store.getState().user.value; // Accéder à l'état pour vérifier le token
-    if (!user.token) {
-      router.push('/');
-    }
-  }, [router]);
 
+   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+     useEffect(() => {
+      const user = store.getState().user.value;
+         if (!user.token) {
+             if (debounceTimeout.current) {
+               clearTimeout(debounceTimeout.current);
+            }
+            debounceTimeout.current = setTimeout(() => {
+                router.push('/'); // Redirige vers la page d'accueil si l'utilisateur est connecté
+            }, 300); // Délai de 300 ms
+        }
+        
+        return () => {
+            if (debounceTimeout.current) {
+                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+            }
+        };
+    }, [router]);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

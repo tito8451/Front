@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
@@ -17,23 +17,23 @@ const Home: React.FC = () => {
 
     const tweetsData = useSelector((state: { tweets: { value: any[] } }) => state.tweets.value);
 
-    const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
-    useEffect(() => {
-        if (!user.token) {
-            if(debounceTimeout.current){
-                clearTimeout(debounceTimeout.current);
-            }
-            debounceTimeout.current = setTimeout(() => {
-                router.push('/');
-            }, 300)
-           }
-           return () => {
-            if (debounceTimeout.current) {
-                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-            }
-        };
+    // const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
+    // useEffect(() => {
+    //     if (!user.token) {
+    //         if(debounceTimeout.current){
+    //             clearTimeout(debounceTimeout.current);
+    //         }
+    //         debounceTimeout.current = setTimeout(() => {
+    //             router.push('/');
+    //         }, 300)
+    //        }
+    //        return () => {
+    //         if (debounceTimeout.current) {
+    //             clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+    //         }
+    //     };
 
-    }, [user.token, router]);
+    // }, [user.token, router]);
 
     const [newTweet, setNewTweet] = useState<string>('');
 

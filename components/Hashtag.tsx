@@ -1,5 +1,5 @@
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../reducers/user';
 import { loadTweets } from '../reducers/tweets';
@@ -31,23 +31,23 @@ const Hashtag: React.FC = () => {
     const router = useRouter();
     const { hashtag } = router.query;
     
-    const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
-    useEffect(() => {
-        if (!user.token) {
-            if(debounceTimeout.current){
-                clearTimeout(debounceTimeout.current);
-            }
-            debounceTimeout.current = setTimeout(() => {
-                router.push('/');
-            }, 300)
-           }
-           return () => {
-            if (debounceTimeout.current) {
-                clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
-            }
-        };
+    // const debounceTimeout = useRef<NodeJS.Timeout | null>(null); 
+    // useEffect(() => {
+    //     if (!user.token) {
+    //         if(debounceTimeout.current){
+    //             clearTimeout(debounceTimeout.current);
+    //         }
+    //         debounceTimeout.current = setTimeout(() => {
+    //             router.push('/');
+    //         }, 300)
+    //        }
+    //        return () => {
+    //         if (debounceTimeout.current) {
+    //             clearTimeout(debounceTimeout.current); // Nettoyage lors de la désinstallation
+    //         }
+    //     };
 
-    }, [user.token, router]);
+    // }, [user.token, router]);
 
     const [query, setQuery] = useState<string>('#');
 
